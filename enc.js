@@ -1,6 +1,25 @@
 import readlineSyncModule from 'readline-sync';
 import fs from 'fs';
-// memo v3(최종)
+import CryptoJS from 'crypto-js';
+
+// 암호화/복호화 함수로 개별 분리
+function encryptContent(content, key) {
+    return CryptoJS.AES.encrypt(content, key).toString();
+}
+
+function decryptContent(encrypted, key) {
+    try {
+        const bytes = CryptoJS.AES.decrypt(encrypted, key);
+        const decrypted = bytes.toString(CryptoJS.enc.Utf8);
+        if (!decrypted) {
+            return null;
+        }
+        return decrypted;
+    } catch (e) {
+        return null;
+    }
+}
+// memo v3
 // 메모 데이터를 저장하기 위한 리스트
 let memoList = [];
 
@@ -22,7 +41,7 @@ function promptInput(message) {
 
 while (!exit) {
     // 사용자에게 메뉴를 출력하고 선택을 입력받음
-    console.log('\n1. 작성  2. 조회  3. 수정  4. 삭제  5. 추가기능  6. 종료');
+    console.log('\n1. 작성  2. 조회  3. 수정  4. 삭제  5. 잠금설정  6. 잠금해제 7. 종료');
     const userSelect = parseInt(promptInput('메뉴 선택 : '));
 
     switch (userSelect) {
@@ -85,8 +104,40 @@ while (!exit) {
             showMemoList(memoList);
             const viewIndex = parseInt(promptInput('조회할 메모 번호 선택: ')) - 1;
             if (viewIndex >= 0 && viewIndex < memoList.length) {
-                console.log(`제목: ${memoList[viewIndex].title}`);
-                console.log(`내용: ${memoList[viewIndex].content}`);
+                let memo = memoList[viewIndex];
+                let title = memo.title;
+                let content = memo.content;
+                let wasLocked = false;
+                let decryptedContent = null;
+                if (title.startsWith('(잠금)')) {
+                    // 잠금 해제 로직
+                    const secretKey = promptInput('비밀번호 입력: ');
+                    decryptedContent = decryptContent(content, secretKey);
+                    if (decryptedContent === null) {
+                        console.log('비밀번호가 올바르지 않거나 복호화 실패.');
+                        break;
+                    }
+                    wasLocked = true;
+                    // 잠금 해제 후 임시로 보여줌
+                    console.log(`제목: ${title}`);
+                    console.log(`내용: ${decryptedContent}`);
+                    // 사용 후 다시 잠글지 여부
+                    const relock = promptInput('사용 후 다시 잠그시겠습니까? (Y/n): ');
+                    if (relock.trim().toLowerCase() === 'n') {
+                        // 잠금 해제 상태로 유지
+                        memo.title = memo.title.replace(/^\(잠금\)\s*/, '');
+                        memo.content = decryptedContent;
+                        fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+                        console.log('메모가 잠금 해제되었습니다.');
+                    } else {
+                        // 그대로 둠
+                        console.log('메모가 다시 잠금 상태로 유지됩니다.');
+                    }
+                } else {
+                    // 잠금 안됨
+                    console.log(`제목: ${title}`);
+                    console.log(`내용: ${content}`);
+                }
             } else {
                 console.log('잘못된 번호입니다.');
             }
@@ -109,12 +160,55 @@ while (!exit) {
             showMemoList(memoList);
             const editIndex = parseInt(promptInput('수정할 메모 번호 선택: ')) - 1;
             if (editIndex >= 0 && editIndex < memoList.length) {
+                let memo = memoList[editIndex];
+                let title = memo.title;
+                let content = memo.content;
+                let wasLocked = false;
+                let decryptedContent = null;
+                if (title.startsWith('(잠금)')) {
+                    // 잠금 해제 로직
+                    const secretKey = promptInput('비밀번호 입력: ');
+                    decryptedContent = decryptContent(content, secretKey);
+                    if (decryptedContent === null) {
+                        console.log('비밀번호가 올바르지 않거나 복호화 실패.');
+                        break;
+                    }
+                    wasLocked = true;
+                    // 잠금 해제 후 수정
+                    console.log('잠금 해제됨. 수정 진행.');
+                    // 사용 후 다시 잠글지 여부는 수정 후 묻는다.
+                } else {
+                    decryptedContent = content;
+                }
                 const editTitle = promptInput('새 제목 입력: ');
                 const editContent = promptInput('새 내용 입력: ');
-                memoList[editIndex].title = editTitle;
-                memoList[editIndex].content = editContent;
-                fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
-                console.log('메모가 수정되었습니다.');
+                if (wasLocked) {
+                    // 잠금 해제 상태에서, 다시 잠글지 여부 묻기
+                    const relock = promptInput('수정 후 다시 잠그시겠습니까? (Y/n): ');
+                    if (relock.trim().toLowerCase() === 'n') {
+                        // 잠금 해제 상태로 저장
+                        memo.title = editTitle;
+                        memo.content = editContent;
+                        fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+                        console.log('메모가 잠금 해제되어 수정되었습니다.');
+                    } else {
+                        // 다시 암호화
+                        const newKey = promptInput('새 비밀번호 입력: ');
+                        if (!newKey.trim()) {
+                            console.log('비밀번호가 비어 있습니다. 수정 취소.');
+                            break;
+                        }
+                        memo.title = `(잠금) ${editTitle}`;
+                        memo.content = encryptContent(editContent, newKey);
+                        fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+                        console.log('메모가 수정 후 다시 잠금 처리되었습니다.');
+                    }
+                } else {
+                    memo.title = editTitle;
+                    memo.content = editContent;
+                    fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+                    console.log('메모가 수정되었습니다.');
+                }
             } else {
                 console.log('잘못된 번호입니다.');
             }
@@ -137,6 +231,38 @@ while (!exit) {
             showMemoList(memoList);
             const delIndex = parseInt(promptInput('삭제할 메모 번호 선택: ')) - 1;
             if (delIndex >= 0 && delIndex < memoList.length) {
+                let memo = memoList[delIndex];
+                let title = memo.title;
+                let content = memo.content;
+                let wasLocked = false;
+                let decryptedContent = null;
+                if (title.startsWith('(잠금)')) {
+                    // 잠금 해제 로직
+                    const secretKey = promptInput('비밀번호 입력: ');
+                    decryptedContent = decryptContent(content, secretKey);
+                    if (decryptedContent === null) {
+                        console.log('비밀번호가 올바르지 않거나 복호화 실패.');
+                        break;
+                    }
+                    wasLocked = true;
+                    // 잠금 해제 후 삭제 여부 확인
+                    const confirmDel = promptInput('잠금 해제되었습니다. 정말 삭제하시겠습니까? (Y/n): ');
+                    if (confirmDel.trim().toLowerCase() === 'n') {
+                        console.log('삭제가 취소되었습니다.');
+                        break;
+                    }
+                    // 사용 후 다시 잠글지 여부
+                    const relock = promptInput('삭제 대신 잠금 해제 상태로 유지할까요? (Y/n): ');
+                    if (relock.trim().toLowerCase() === 'y') {
+                        // 잠금 해제 상태로 유지
+                        memo.title = memo.title.replace(/^\(잠금\)\s*/, '');
+                        memo.content = decryptedContent;
+                        fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+                        console.log('삭제 대신 메모가 잠금 해제되었습니다.');
+                        break;
+                    }
+                    // 삭제 진행
+                }
                 memoList.splice(delIndex, 1);
                 fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
                 console.log('메모가 삭제되었습니다.');
@@ -146,12 +272,68 @@ while (!exit) {
             break;
 
         case 5:
-            // 5. 추가기능 
-            console.log('추가기능은 아직 구현되지 않았습니다.');
+            // 5. 암호화(AES)
+            try {
+                const data = fs.readFileSync('memoList.json', 'utf8');
+                memoList = JSON.parse(data);
+            } catch (err) {
+                memoList = [];
+                }
+            showMemoList(memoList);
+            const encIndex = parseInt(promptInput('암호화할 메모 번호 선택 : ')) - 1;
+            if (encIndex >= 0 && encIndex < memoList.length) {
+                if (memoList[encIndex].title.startsWith('(잠금)')) {
+                    console.log('이미 잠금 처리된 메모입니다.');
+                    break;
+                }
+                const secretKey = promptInput('비밀번호 입력 : ');
+                if (!secretKey.trim()) {
+                    console.log('비밀번호가 비어 있습니다.');
+                    break;
+                }
+
+            const originalContent = memoList[encIndex].content;
+            const encrypted = encryptContent(originalContent, secretKey);
+
+            memoList[encIndex].content = encrypted;
+            memoList[encIndex].title = `(잠금) ${memoList[encIndex].title}`;
+
+            fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+            console.log('메모가 암호화되었습니다.');
+}
             break;
 
         case 6:
-            // 6. 종료 기능
+            try {
+                const data = fs.readFileSync('memoList.json', 'utf8');
+                memoList = JSON.parse(data);
+            } catch (err) {
+                memoList = [];
+            }
+            showMemoList(memoList);
+            const decIndex = parseInt(promptInput('복호화할 메모 번호 선택: ')) - 1;
+            if (decIndex >= 0 && decIndex < memoList.length) {
+                let memo = memoList[decIndex];
+                if (!memo.title.startsWith('(잠금)')) {
+                    console.log('이미 잠금 해제된 메모입니다.');
+                    break;
+                }
+            const secretKey = promptInput('비밀번호 입력: ');
+            const decrypted = decryptContent(memo.content, secretKey);
+            if (decrypted === null) {
+            console.log('비밀번호가 올바르지 않거나 복호화 실패.');
+            break;
+        }
+            memo.title = memo.title.replace(/^\(잠금\)\s*/, '');
+            memo.content = decrypted;
+            fs.writeFileSync('memoList.json', JSON.stringify(memoList, null, 2));
+            console.log('메모가 잠금 해제되었습니다.');
+        } else {
+            console.log('잘못된 번호입니다.');
+            }   
+            break;
+        case 7:
+            // 7. 종료 기능
             // 반복문을 종료하기 위해 exit 값을 true로 설정
             console.log('프로그램을 종료합니다.');
             exit = true;
