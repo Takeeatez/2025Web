@@ -1,0 +1,4 @@
+/web1/.env.dev
+/web1/node_modules
+/front/node_modules
+/front/.env
