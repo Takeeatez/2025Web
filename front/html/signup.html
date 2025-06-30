@@ -8,69 +8,90 @@
             href="../css/login.css"
             crossorigin="anonymous"
         />
-        <title>회원가입</title>
+        <title>Signup - Community</title>
+        <style>
+          .profileCircle {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #e0e0e0;
+            cursor: pointer;
+            position: relative;
+          }
+
+          .profileCircle:hover {
+            filter: brightness(0.9);
+          }
+        </style>
     </head>
-    <body>
+    <body class="signup-page">
         <section class="wrap">
-            <h1 class="title">회원가입</h1>
             <article>
+                <div class="title">Sign up</div>
+                <div class="profileUploadContainer">
+                    <label for="profile" class="profileCircle" tabindex="0" role="button">
+                        <img id="profilePreview" src="../image/profile/default.jpg" alt="">
+                    </label>
+                    <input type="file" name="profile" id="profile" accept="image/*" />
+                </div>
                 <div class="inputBox">
-                    <label for="email">이메일</label>
-                    <input
-                        type="text"
-                        name="email"
-                        id="email"
-                        placeholder="이메일을 입력하세요"
-                    />
+                    <label for="email"></label>
+                    <div class="email-check-wrapper">
+                        <input
+                            type="text"
+                            id="email"
+                            placeholder="Email"
+                            onblur="validateField('email')"
+                            oninput="validateField('email')"
+                        />
+                        <button type="button" id="emailCheckBtn">중복확인</button>
+                    </div>
                     <p class="helperText" name="email"></p>
                 </div>
                 <div class="inputBox">
-                    <label for="pw">비밀번호</label>
+                    <label for="pw"></label>
                     <input
                         type="password"
-                        name="pw"
                         id="pw"
-                        placeholder="비밀번호를 입력하세요"
+                        placeholder="Password"
+                        onblur="validateField('pw')"
+                        oninput="validateField('pw')"
                     />
-                    <p class="helperText" name="pw"></p>
+                    <p class="helperText" id="pw-helper" name="pw"></p>
                 </div>
                 <div class="inputBox">
-                    <label for="pwck">비밀번호 확인</label>
+                    <label for="pwck"></label>
                     <input
                         type="password"
-                        name="pw"
                         id="pwck"
-                        placeholder="비밀번호를 한번 더 입력하세요"
+                        placeholder="Password Confirm"
+                        onblur="validateField('pwck')"
+                        oninput="validateField('pwck')"
                     />
-                    <p class="helperText" name="pwck"></p>
+                    <p class="helperText" id="pwck-helper" name="pwck"></p>
                 </div>
                 <div class="inputBox">
-                    <label for="nickname">닉네임</label>
+                    <label for="nickname"></label>
                     <input
                         type="text"
-                        name="nickname"
                         id="nickname"
-                        placeholder="닉네임을 입력해 주세요"
+                        placeholder="Nickname"
+                        onblur="validateField('nickname')"
+                        oninput="validateField('nickname')"
                     />
-                    <p class="helperText" name="nickname"></p>
-                </div>
-                <div class="inputBox">
-                    <label for="profile">프로필 사진</label>
-                    <input
-                        type="file"
-                        name="profile"
-                        id="profile"
-                        placeholder="프로필 사진을 업로드 해주세요"
-                        accept="image/*"
-                    />
+                    <p class="helperText" id="nickname-helper" name="nickname"></p>
                 </div>
                 <div class="buttons">
-                    <button id="signupBtn">회원 가입</button>
+                    <button id="signupBtn" class="signup-button">회원 가입</button>
                     <a href="login.html">로그인 하러가기</a>
                 </div>
             </article>
         </section>
         <div class="background"></div>
-    </body>
-    <script src="../js/signup.js" type="module"></script>
+</body>
+<script src="../js/signup.js" type="module"></script>
 </html>

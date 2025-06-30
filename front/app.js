@@ -12,6 +12,7 @@ const __dirname = dirname(__filename);
 
 app.use(express.static(__dirname));
 app.use('/background', express.static(__dirname + '/public/background'));
+app.use('/image', express.static(__dirname + '/public/image'));
 
 app.get('/', (req, res) => {
     res.redirect('/html/index.html');

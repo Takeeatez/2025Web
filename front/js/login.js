@@ -1,4 +1,3 @@
-import Header from '../component/header/header.js';
 import {
     authCheckReverse,
     prependChild,
@@ -27,7 +26,7 @@ const loginClick = async () => {
     if (!response.ok) {
         updateHelperText(
             helperTextElement,
-            '*입력하신 계정 정보가 정확하지 않았습니다.',
+            '*입력하신 계정 정보가 정확하지 않습니다.',
         );
         return;
     }
@@ -36,7 +35,7 @@ const loginClick = async () => {
     if (response.status !== HTTP_OK) {
         updateHelperText(
             helperTextElement,
-            '*입력하신 계정 정보가 정확하지 않았습니다.',
+            '*입력하신 계정 정보가 정확하지 않습니다.',
         );
         return;
     }
@@ -127,10 +126,10 @@ const lottieAnimation = type => {
 const init = async () => {
     await authCheckReverse();
     observeSignupData();
-    prependChild(document.body, Header('Community', 0));
     eventSet();
     localStorage.clear();
     document.cookie = '';
 };
 
 init();
+

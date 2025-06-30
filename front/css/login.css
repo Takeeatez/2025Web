@@ -1,32 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Codec+Pro:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
 @import url('./common/layout.css');
-@import url('../component/header/header.css');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libertinus+Mono&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 html, body {
     margin: 0;
     padding: 0;
 }
 
+
+
 body {
     height: 100%;
     width: 100%;
-    /*font-family: 'Noto Sans', sans-serif;*/
     background-size: cover;
 }
 
 .title {
-    font-size: 25px;
-    font-family: 'Noto Sans', sans-serif;
+    font-size: 30px;
     line-height: 38.41px;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-    color: #000000;
+    font-family: "Libertinus Mono", monospace;
+    font-weight: bold;
     margin-bottom: 0px;
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    letter-spacing: 0.5px;
+    text-shadow: 2px 2px 6px rgba(64, 192, 255, 0.6);
+    letter-spacing: 1px;
+
+    background: linear-gradient(90deg, #41A6FF, #18F4FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.typing {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 0; /* 처음엔 안 보이게 */
+  border-right: 2px solid rgba(255, 255, 255, 0.75);
+  animation: typing 2s steps(10, end) forwards, blink 0.75s step-end infinite;
+  font-weight: inherit;
+}
+
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
 }
 
 section.wrap {
@@ -46,12 +69,13 @@ article {
     justify-content: center;
     row-gap: 35px;
     margin: 5vh auto;
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 20px;
     padding: 80px 60px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
+    transition: transform 0.3s ease;
 }
 
 .inputBox {
@@ -76,10 +100,8 @@ article {
     line-height: 16.8px;
     width: 100%;
     padding: 16px 18px;
-
     border-radius: 6px;
-    border: 1px solid #ccc;
-
+    border: 1px solid transparent; /* default invisible border */
     background-color: #f9f9f9;
     transition: all 0.3s ease;
 }
@@ -87,6 +109,10 @@ article {
 .inputBox input:focus {
     transform: scale(1.02);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.inputBox input.error {
+    border: 1px solid red;
 }
 
 .inputBox input[type='text'] {
@@ -105,6 +131,34 @@ article {
 .inputBox input[type='file'] {
     border: none;
     padding: 8px 0px;
+    opacity: 0;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    cursor: pointer;
+}
+
+.custom-file-label {
+    display: inline-block;
+    width: auto;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    text-align: right;
+}
+
+.custom-file-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .inputBox > .helperText {
@@ -112,10 +166,12 @@ article {
     bottom: -4px;
     transform: translate(0, 100%);
 
+
     color: #f00;
-    font-size: 10px;
+    font-size: 12px;
+    font-family: "Noto Sans KR", sans-serif;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 200;
     line-height: normal;
 }
 
@@ -147,21 +203,23 @@ a {
     align-items: center;
 }
 
-.buttons button {
-    background-color: #3e3a39;
+
+.login-button {
+    background-color: rgba(135, 206, 235, 1) !important;
     color: #ffffff;
-    font-weight: 700;
-    border-radius: 6px;
+    font-weight: 800;
+    border-radius: 2px;
+    border: 1px solid rgba(135, 206, 235, 0.3);
     height: 40px;
     transition: background-color 0.3s ease;
 }
 
-.buttons button:hover {
+.login-button:hover {
     background-color: #2f2c2b;
 }
 
 .buttons a {
-    color: #000000;
+    color: #ffffff;
     font-weight: 400;
 }
 
@@ -184,7 +242,7 @@ a {
 }
 
 .toastMessage {
-    background-color: #7f6aee;
+    background-color: #000000;
     color: #ffffff;
     padding: 10px 20px;
     margin-bottom: 5px;
@@ -196,11 +254,21 @@ a {
 
 .profileUploadContainer {
     position: relative;
-    display: inline-block; /* 또는 부모 요소에 따라 다른 디스플레이 속성을 설정할 수 있음 */
-    width: 100px; /* 프로필 이미지의 너비에 맞춤 */
-    height: 100px; /* 프로필 이미지의 높이에 맞춤 */
-    overflow: hidden; /* 컨테이너 바깥으로 나가는 내용 숨김 */
-    border-radius: 50%; /* 컨테이너의 모서리를 둥글게 */
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profileUploadContainer input[type='file'] {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 
 .profileUploadButton {
@@ -218,7 +286,6 @@ a {
     border-radius: 20px; /* 버튼의 모서리를 둥글게 */
 }
 #profilePreview {
-    filter: brightness(50%); /* 이미지를 어둡게 만듬 */
     width: 100%; /* 컨테이너에 맞춰 이미지 크기 조절 */
     height: 100%; /* 컨테이너에 맞춰 이미지 크기 조절 */
     object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 채움 */
@@ -242,4 +309,44 @@ section.wrap {
     background-repeat: no-repeat;
     position: relative;
     z-index: 0;
+}
+ 
+.signup-page .inputBox {
+    margin-bottom: 20px;
+}
+.email-check-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#emailCheckBtn {
+    padding: 6px 10px;
+    font-size: 12px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 48px; /* match the input height */
+}
+
+#email {
+    flex-grow: 1;
+}
+
+.signup-button {
+    background-color: rgba(135, 206, 235, 0.8);
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    height: 45px;
+    transition: background-color 0.3s ease;
+}
+
+.signup-button:hover {
+    background-color: rgba(140, 206, 235, 1);
 }
