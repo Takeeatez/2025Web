@@ -215,10 +215,10 @@ const observeSignupData = () => {
         !passwordCheck
     ) {
         button.disabled = true;
-        button.style.backgroundColor = '#ACA0EB';
+        button.style.backgroundColor = 'rgba(135, 206, 235, 0.6)';
     } else {
         button.disabled = false;
-        button.style.backgroundColor = '#7F6AEE';
+        button.style.backgroundColor = 'rgba(135, 206, 235, 1.0)';
     }
 };
 
@@ -245,7 +245,7 @@ const uploadProfileImage = () => {
             } catch (error) {
                 console.error('업로드 중 오류 발생:', error);
             }
-        });
+        }); 
 };
 
 const init = async () => {
@@ -255,6 +255,7 @@ const init = async () => {
     signupClick();
     uploadProfileImage();
 };
+
 
 init();
 

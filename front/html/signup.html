@@ -36,7 +36,7 @@
                     <label for="profile" class="profileCircle" tabindex="0" role="button">
                         <img id="profilePreview" src="../image/profile/default.jpg" alt="">
                     </label>
-                    <input type="file" name="profile" id="profile" accept="image/*" />
+                    <input type="file" name="profile" id="profile" accept="image/*" style="display:block;" />
                 </div>
                 <div class="inputBox">
                     <label for="email"></label>
@@ -48,7 +48,6 @@
                             onblur="validateField('email')"
                             oninput="validateField('email')"
                         />
-                        <button type="button" id="emailCheckBtn">중복확인</button>
                     </div>
                     <p class="helperText" name="email"></p>
                 </div>
@@ -86,12 +85,27 @@
                     <p class="helperText" id="nickname-helper" name="nickname"></p>
                 </div>
                 <div class="buttons">
-                    <button id="signupBtn" class="signup-button">회원 가입</button>
-                    <a href="login.html">로그인 하러가기</a>
+                    <button id="signupBtn" class="signup-button">Sign Up</button>
+                    <a href="login.html">Login</a>
                 </div>
             </article>
         </section>
         <div class="background"></div>
 </body>
 <script src="../js/signup.js" type="module"></script>
+<script type="module">
+  const profileInput = document.getElementById('profile');
+  const profilePreview = document.getElementById('profilePreview');
+
+  profileInput.addEventListener('change', function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        profilePreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
 </html>
