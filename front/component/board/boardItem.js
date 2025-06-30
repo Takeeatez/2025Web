@@ -10,6 +10,7 @@ const BoardItem = (
     commentCount,
     like,
     postContent,
+    fileId
 ) => {
     // 파라미터 값이 없으면 리턴
     if (
@@ -44,9 +45,9 @@ const BoardItem = (
             <h2 class="title">${postTitle}</h2>
             <p class="preview">${postContent && postContent.length > 100 ? postContent.slice(0, 100) + '...' : postContent || ''}</p>
             <div class="info">
-                <h3 class="views">좋아요 <b>${like}</b></h3>
-                <h3 class="views">댓글 <b>${commentCount}</b></h3>
-                <h3 class="views">조회수 <b>${hits}</b></h3>
+                <h3 class="views"><i class="fa-regular fa-heart"></i> <b>${like}</b></h3>
+                <h3 class="views"><i class="fa-regular fa-comment-dots"></i> <b>${commentCount}</b></h3>
+                <h3 class="views"><i class="fa-regular fa-eye"></i> <b>${hits}</b></h3>
                 <p class="date">${formattedDate}</p>
             </div>
             <div class="writerInfo">

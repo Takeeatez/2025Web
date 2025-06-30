@@ -190,7 +190,7 @@ const init = async () => {
                 ? DEFAULT_PROFILE_IMAGE
                 : `${getServerUrl()}${myInfo.profileImagePath}`;
 
-        prependChild(document.body, Header('커뮤니티', 2, profileImage));
+        prependChild(document.body, Header(' ', 2, profileImage));
 
         const pageId = getQueryString('id');
 

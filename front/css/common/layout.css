@@ -24,7 +24,7 @@ body {
 .wrap {
     width: 100%;
     min-height: 100vh;
-    padding-top: 142px;
+    padding-top: 40px;
     padding-bottom: 10px;
 
     display: flex;

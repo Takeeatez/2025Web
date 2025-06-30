@@ -239,7 +239,7 @@ const init = async () => {
             ? DEFAULT_PROFILE_IMAGE
             : `${getServerUrl()}${data.data.profileImagePath}`;
 
-    prependChild(document.body, Header('커뮤니티', 1, profileImage));
+    prependChild(document.body, Header(' ', 1, profileImage));
 
     if (modifyId) {
         isModifyMode = true;
