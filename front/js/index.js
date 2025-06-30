@@ -34,6 +34,7 @@ const setBoardItem = boardData => {
                     data.nickname,
                     data.comment_count,
                     data.like,
+                    data.post_content,
                 ),
             )
             .join('');
@@ -86,7 +87,7 @@ const init = async () => {
 
         prependChild(
             document.body,
-            Header('Community', 0, profileImagePath),
+            Header(' ', 0, profileImagePath),
         );
 
         const boardList = await getBoardItem();

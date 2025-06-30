@@ -9,6 +9,7 @@ const BoardItem = (
     writer,
     commentCount,
     like,
+    postContent,
 ) => {
     // 파라미터 값이 없으면 리턴
     if (
@@ -41,6 +42,7 @@ const BoardItem = (
     <a href="/html/board.html?id=${postId}">
         <div class="boardItem">
             <h2 class="title">${postTitle}</h2>
+            <p class="preview">${postContent && postContent.length > 100 ? postContent.slice(0, 100) + '...' : postContent || ''}</p>
             <div class="info">
                 <h3 class="views">좋아요 <b>${like}</b></h3>
                 <h3 class="views">댓글 <b>${commentCount}</b></h3>
