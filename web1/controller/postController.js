@@ -246,7 +246,8 @@ exports.toggleLike = async (request, response, next) => {
 
         return response.status(STATUS_CODE.OK).json({
             message: STATUS_MESSAGE.LIKE_SUCCESS,
-            data: responseData
+            liked: responseData.liked,
+            likeCount: responseData.likeCount
         });
     } catch (error) {
         console.error('[toggleLike] Error:', error); // ← 추가

@@ -126,9 +126,13 @@ body{
 }
 
 .body .bodyWrap .likeCount {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     font-size: 18px;
     line-height: 25px;
     letter-spacing: -0.02em;
+    color: #5c6170;
 }
 
 .body .bodyWrap .likeWrap span {
@@ -141,6 +145,46 @@ body{
     border: none;
     background-color: transparent;
     cursor: pointer;
+    font-size: 20px;
+}
+
+/* Icon support for 게시글, 조회수, 좋아요 */
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 16px;
+    color: #5c6170;
+}
+
+.icon i {
+    font-size: 18px;
+    color: #5c6170;
+}
+
+.likeIcon.red i {
+    color: rgba(252, 85, 85, 1);
+}
+
+/* Meta icons for 게시글, 조회수, 좋아요 - consistent appearance and spacing */
+.meta-icons {
+    display: flex;
+    gap: 20px;
+    margin-top: 12px;
+    align-items: center;
+    font-size: 15px;
+    color: #5c6170;
+}
+
+.meta-icons .icon {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.meta-icons .icon i {
+    font-size: 17px;
+    color: #5c6170;
 }
 
 .commentWrap {

@@ -5,6 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link
             rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+            integrity="sha512-papNM3C7lU+3dZLQ4KjlkkG9JQW9XkGmW3lqkBk4p1lY4axurx/AE5PzvZCkq6Vd1CJZ+hPlf+9d3RBh8rFZZg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link
+            rel="stylesheet"
             href="../css/board.css"
             crossorigin="anonymous"
         />
@@ -31,13 +38,17 @@
                 <article class="content"></article>
                 <article class="bodyWrap">
                     <div class="commentWrap">
-                        <div class="viewCount">
+                        <div class="viewCount icon">
+                            <i class="fas fa-eye"></i>
                             <h3></h3>
-                            <p>조회수</p>
                         </div>
-                        <div class="commentCount">
+                        <div class="commentCount icon">
+                            <i class="fas fa-comment"></i>
                             <h3></h3>
-                            <p>댓글</p>
+                        </div>
+                        <div class="likeCount icon">
+                            <i class="fas fa-heart"></i>
+                            <span id="likeCount">0</span>
                         </div>
                     </div>
                 </article>

@@ -83,3 +83,22 @@ export const unlikePost = async (postId) => {
 
     return result.json();
 };
+
+
+export const toggleLike = async postId => {
+    const result = await fetch(`${getServerUrl()}/posts/${postId}/like`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            session: getCookie('session'),
+            userid: getCookie('userId'),
+        },
+        noCORS: true,
+    });
+
+    if (!result.ok) {
+        throw new Error('Failed to toggle like');
+    }
+
+    return result.json();
+};

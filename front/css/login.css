@@ -349,3 +349,106 @@ section.wrap {
     height: 45px;
     transition: background-color 0.3s ease;
 }
+
+
+header {
+    width: 80px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    justify-content: space-between;
+    padding-bottom: 40px;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99;
+    font-family: 'Noto Sans', sans-serif;
+}
+
+header .logo {
+    width: 42px;
+    height: 42px;
+    margin-top: 0;
+    margin-bottom: 10px;
+    background-image: url('/public/image/communitylogo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+header h1 {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 1.4rem;
+    margin: 60px 0 40px 0;
+    text-align: center;
+    font-weight: 800;
+    font-family: 'Noto Sans', sans-serif;
+    color: #141414;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+header h1:hover {
+    color: #298DFF;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+header .back {
+    rid-area: lbtn;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+header .profile {
+    grid-area: rbtn;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+header .profile img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+header .drop {
+    position: absolute;
+    top: -20px;
+    left: 100%;
+    margin-left: 8px;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    width: 110px;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+header .drop a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    text-decoration: none;
+    color: #000;
+    font-size: 12px;
+}
+
+header .drop a:hover {
+    background: #e9e9e9;
+}
+
+.none {
+    display: none !important;
+}

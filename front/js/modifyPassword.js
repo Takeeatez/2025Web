@@ -113,7 +113,7 @@ const modifyPassword = async () => {
 
 const init = () => {
     button.addEventListener('click', modifyPassword);
-    prependChild(document.body, Header('커뮤니티', 1, profileImage));
+    prependChild(document.body, Header(' ', 1, profileImage));
     addEventForInputElements();
     observeData();
 };

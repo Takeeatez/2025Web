@@ -246,7 +246,7 @@ const init = () => {
             ? DEFAULT_PROFILE_IMAGE
             : `${getServerUrl()}${authData.data.profileImagePath}`;
 
-    prependChild(document.body, Header('커뮤니티', 2, profileImage));
+    prependChild(document.body, Header(' ', 2, profileImage));
     setData(authData.data);
     observeData();
     addEvent();

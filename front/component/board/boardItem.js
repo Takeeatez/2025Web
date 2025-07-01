@@ -74,30 +74,19 @@ document.addEventListener('click', async (e) => {
     const postId = parseInt(likeWrapper.getAttribute('data-post-id'), 10);
     const icon = likeWrapper.querySelector('.like-icon');
     const countEl = likeWrapper.querySelector('.like-count');
+
     try {
       const boardRequest = await import('../../api/boardRequest.js');
-      let result;
-      if (icon.classList.contains('fa-solid')) {
-        try {
-          result = await boardRequest.unlikePost(postId);
-          if (result?.likeCount !== undefined) {
-            icon.classList.remove('fa-solid');
-            icon.classList.add('fa-regular');
-            countEl.textContent = result.likeCount;
-          }
-        } catch (err) {
-          console.error('좋아요 오류:', err);
-        }
-      } else {
-        try {
-          result = await boardRequest.likePost(postId);
-          if (result?.likeCount !== undefined) {
-            icon.classList.remove('fa-regular');
-            icon.classList.add('fa-solid');
-            countEl.textContent = result.likeCount;
-          }
-        } catch (err) {
-          console.error('좋아요 오류:', err);
+      const result = await boardRequest.toggleLike(postId);
+
+      if (result && typeof result.likeCount === 'number' && typeof result.liked === 'boolean') {
+        countEl.textContent = result.likeCount;
+        if (result.liked) {
+          icon.classList.remove('fa-regular');
+          icon.classList.add('fa-solid');
+        } else {
+          icon.classList.remove('fa-solid');
+          icon.classList.add('fa-regular');
         }
       }
     } catch (err) {

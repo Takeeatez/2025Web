@@ -13,8 +13,6 @@ import {
     deletePost,
     writeComment,
     getComments, 
-    likePost,
-    unlikePost
 } from '../api/boardRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
