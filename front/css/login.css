@@ -23,9 +23,10 @@ body {
     font-family: "Libertinus Mono", monospace;
     font-weight: bold;
     margin-bottom: 0px;
-    animation: fadeInUp 0.8s ease-out forwards;
+    animation: fadeInUp 0.8s ease-out forwards, typing 2s steps(10, end) forwards, blink 0.75s step-end infinite;
     opacity: 0;
     text-shadow: 2px 2px 6px rgba(64, 192, 255, 0.9);
+    text-align: center;
     letter-spacing: 1px;
 
     background: #ffffff;

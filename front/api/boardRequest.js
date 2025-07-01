@@ -4,7 +4,7 @@ export const getPost = postId => {
     const result = fetch(`${getServerUrl()}/posts/${postId}`, {
         headers: {
             session: getCookie('session'),
-            userId: getCookie('userId'),
+            userid: getCookie('userId'),
         },
         noCORS: true,
     });
@@ -16,7 +16,7 @@ export const deletePost = async postId => {
         method: 'DELETE',
         headers: {
             session: getCookie('session'),
-            userId: getCookie('userId'),
+            userid: getCookie('userId'),
         },
     });
     return result;
@@ -28,7 +28,7 @@ export const writeComment = async (pageId, comment) => {
         headers: {
             'Content-Type': 'application/json',
             session: getCookie('session'),
-            userId: getCookie('userId'),
+            userid: getCookie('userId'),
         },
         body: JSON.stringify({ commentContent: comment }),
     });
@@ -39,9 +39,47 @@ export const getComments = async postId => {
     const result = await fetch(`${getServerUrl()}/posts/${postId}/comments`, {
         headers: {
             session: getCookie('session'),
-            userId: getCookie('userId'),
+            userid: getCookie('userId'),
         },
         noCORS: true,
     });
     return result;
+};
+
+// 좋아요처리
+export const likePost = async postId => {
+    const result = await fetch(`${getServerUrl()}/posts/${postId}/like`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            session: getCookie('session'),
+            userid: getCookie('userId'),
+        },
+        noCORS: true,
+    });
+
+    if (!result.ok) {
+        throw new Error('Failed to like post');
+    }
+
+    return result.json();
+};
+
+// 좋아요취소
+export const unlikePost = async (postId) => {
+    const result = await fetch(`${getServerUrl()}/posts/${postId}/like`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            session: getCookie('session'),
+            userid: getCookie('userId'),
+        },
+        noCORS: true,
+    });
+
+    if (!result.ok) {
+        throw new Error('Failed to unlike post');
+    }
+
+    return result.json();
 };

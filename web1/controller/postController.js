@@ -1,5 +1,8 @@
 const postModel = require('../model/postModel.js');
 const {
+    toggleLike: toggleLikeModel
+} = require('../model/postModel.js');
+const {
     STATUS_CODE,
     STATUS_MESSAGE
 } = require('../util/constant/httpStatusCode.js');
@@ -10,6 +13,7 @@ const {
  * 게시글 상세 조회
  * 게시글 수정
  * 게시글 삭제
+ * 게시글 좋아요
  */
 
 // 게시글 작성
@@ -81,9 +85,11 @@ exports.getPosts = async (request, response, next) => {
             error.status = STATUS_CODE.BAD_REQUEST;
             throw error;
         }
+        const { userid: userId } = request.headers;
         const requestData = {
             offset: parseInt(offset, 10),
             limit: parseInt(limit, 10),
+            userId
         };
         const responseData = await postModel.getPosts(requestData);
 
@@ -204,5 +210,46 @@ exports.softDeletePost = async (request, response, next) => {
         });
     } catch (error) {
         return next(error);
+    }
+};
+
+// 게시글 좋아요
+exports.toggleLike = async (request, response, next) => {
+    const { post_id: postId } = request.params;
+    const { userid: userId } = request.headers;
+
+    try {
+        console.log('[toggleLike] userId:', userId);
+        console.log('[toggleLike] postId:', postId);
+
+        if (!postId) {
+            const error = new Error(STATUS_MESSAGE.INVALID_POST_ID);
+            error.status = STATUS_CODE.BAD_REQUEST;
+            throw error;
+        }
+
+        if (!userId) {
+            const error = new Error(STATUS_MESSAGE.NOT_FOUND_USER);
+            error.status = STATUS_CODE.UNAUTHORIZED;
+            throw error;
+        }
+
+        const requestData = { postId, userId };
+
+        const responseData = await toggleLikeModel(requestData);
+
+        if (!responseData) {
+            const error = new Error(STATUS_MESSAGE.LIKE_FAILED);
+            error.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
+            throw error;
+        }
+
+        return response.status(STATUS_CODE.OK).json({
+            message: STATUS_MESSAGE.LIKE_SUCCESS,
+            data: responseData
+        });
+    } catch (error) {
+        console.error('[toggleLike] Error:', error); // ← 추가
+        next(error);
     }
 };

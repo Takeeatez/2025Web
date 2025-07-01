@@ -12,7 +12,9 @@ import {
     getPost,
     deletePost,
     writeComment,
-    getComments,
+    getComments, 
+    likePost,
+    unlikePost
 } from '../api/boardRequest.js';
 
 const DEFAULT_PROFILE_IMAGE = '../public/image/profile/default.jpg';
@@ -77,6 +79,20 @@ const setBoardDetail = data => {
 
     const commentCountElement = document.querySelector('.commentCount h3');
     commentCountElement.textContent = data.comment_count.toLocaleString();
+
+    // 좋아요 정보 표시
+    const likeButton = document.querySelector('.like-btn');
+    const likeCountElement = document.querySelector('.likeCount');
+
+    if (likeButton && likeCountElement) {
+        if (data.isLikedByMe) {
+            likeButton.classList.add('liked');
+        } else {
+            likeButton.classList.remove('liked');
+        }
+
+        likeCountElement.textContent = data.like_count ?? 0;
+    }
 };
 
 const setBoardModify = async (data, myInfo) => {

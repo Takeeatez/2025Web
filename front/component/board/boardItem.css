@@ -10,15 +10,24 @@
     flex-direction: column;
     width: 800px;
     min-height: 220px;
-
     padding: 16px 20px;
-    border: 1px solid rgba(241, 241, 243, 1);
-    border-radius: 8px;
+
+    border-top: 1px solid #e0e0e0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    border-radius: 0;
 
     cursor: pointer;
-    box-shadow: 3px 4px 4px 0px #cccccc40;
+    box-shadow: none;
     background-color: white;
     overflow: hidden;
+
+    margin-top: -1px; /* 인접 항목과 경계선 연결 */
+}
+
+.boardList .boardItem:first-child {
+    border-top: none;
 }
 
 .boardItem .date {

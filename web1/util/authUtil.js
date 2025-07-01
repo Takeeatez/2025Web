@@ -4,12 +4,13 @@ const { STATUS_CODE, STATUS_MESSAGE } = require('./constant/httpStatusCode.js');
 // 사용자가 로그인된 상태인지 확인하는 인증 필터
 const isLoggedIn = async (req, res, next) => {
     const { session } = req.headers;
+
     // 사용자 Id 추출
     const userId =
         req.headers.userid && !Number.isNaN(req.headers.userid)
             ? parseInt(req.headers.userid, 10)
             : null;
-
+    
     try {
         // 유효성 검사
         if (!userId) {
@@ -24,7 +25,7 @@ const isLoggedIn = async (req, res, next) => {
             [userId],
             res
         );
-
+        
         if (
             // 세션 값 비교
             !userSessionData ||

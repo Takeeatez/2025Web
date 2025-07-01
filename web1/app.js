@@ -33,7 +33,7 @@ const initSessionId = async () => {
 // 서버 시작 함수
 const startHttpServer = () => {
     app.listen(PORT, () => {
-        console.log(`edu-community app listening on port ${PORT}`);
+        console.log(`community app listening on port ${PORT}`);
     });
 };
 

@@ -10,7 +10,8 @@ const BoardItem = (
     commentCount,
     like,
     postContent,
-    fileId
+    fileId,
+    isLikedByMe
 ) => {
     // 파라미터 값이 없으면 리턴
     if (
@@ -45,7 +46,10 @@ const BoardItem = (
             <h2 class="title">${postTitle}</h2>
             <p class="preview">${postContent && postContent.length > 100 ? postContent.slice(0, 100) + '...' : postContent || ''}</p>
             <div class="info">
-                <h3 class="views"><i class="fa-regular fa-heart"></i> <b>${like}</b></h3>
+                <h3 class="views like-wrapper" data-post-id="${postId}">
+                  <i class="like-icon ${isLikedByMe ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="cursor:pointer;"></i>
+                  <b class="like-count">${like ?? 0}</b>
+                </h3>
                 <h3 class="views"><i class="fa-regular fa-comment-dots"></i> <b>${commentCount}</b></h3>
                 <h3 class="views"><i class="fa-regular fa-eye"></i> <b>${hits}</b></h3>
                 <p class="date">${formattedDate}</p>
@@ -62,3 +66,42 @@ const BoardItem = (
 };
 
 export default BoardItem;
+
+document.addEventListener('click', async (e) => {
+  const likeWrapper = e.target.closest('.like-wrapper');
+  if (likeWrapper) {
+    e.preventDefault();
+    const postId = parseInt(likeWrapper.getAttribute('data-post-id'), 10);
+    const icon = likeWrapper.querySelector('.like-icon');
+    const countEl = likeWrapper.querySelector('.like-count');
+    try {
+      const boardRequest = await import('../../api/boardRequest.js');
+      let result;
+      if (icon.classList.contains('fa-solid')) {
+        try {
+          result = await boardRequest.unlikePost(postId);
+          if (result?.likeCount !== undefined) {
+            icon.classList.remove('fa-solid');
+            icon.classList.add('fa-regular');
+            countEl.textContent = result.likeCount;
+          }
+        } catch (err) {
+          console.error('좋아요 오류:', err);
+        }
+      } else {
+        try {
+          result = await boardRequest.likePost(postId);
+          if (result?.likeCount !== undefined) {
+            icon.classList.remove('fa-regular');
+            icon.classList.add('fa-solid');
+            countEl.textContent = result.likeCount;
+          }
+        } catch (err) {
+          console.error('좋아요 오류:', err);
+        }
+      }
+    } catch (err) {
+      console.error('좋아요 오류:', err);
+    }
+  }
+});
