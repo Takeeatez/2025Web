@@ -108,7 +108,7 @@ exports.getPosts = async (requestData, response) => {
     ORDER BY post_table.created_at DESC
     LIMIT ${limit} OFFSET ${offset};
     `;
-    const results = await dbConnect.query(sql, [userId, limit, offset], response);
+    const results = await dbConnect.query(sql, [userId], response);
     
     if (!results) return null;
     return results;

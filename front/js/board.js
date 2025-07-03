@@ -34,6 +34,7 @@ const getBoardDetail = async postId => {
     return data.data;
 };
 
+// 게시글 상세조회
 const setBoardDetail = data => {
     // 헤드 정보
     const titleElement = document.querySelector('.title');
@@ -80,7 +81,7 @@ const setBoardDetail = data => {
 
     // 좋아요 정보 표시
     const likeButton = document.querySelector('.like-btn');
-    const likeCountElement = document.querySelector('.likeCount');
+    const likeCountElement = document.querySelector('.likeCount h3');
 
     if (likeButton && likeCountElement) {
         if (data.isLikedByMe) {
@@ -89,7 +90,7 @@ const setBoardDetail = data => {
             likeButton.classList.remove('liked');
         }
 
-        likeCountElement.textContent = data.like_count ?? 0;
+        likeCountElement.textContent = (data.like_count ?? 0).toLocaleString();
     }
 };
 

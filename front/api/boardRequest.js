@@ -102,3 +102,4 @@ export const toggleLike = async postId => {
 
     return result.json();
 };
+
