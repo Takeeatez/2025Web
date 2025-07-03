@@ -85,12 +85,14 @@ exports.getPosts = async (request, response, next) => {
             error.status = STATUS_CODE.BAD_REQUEST;
             throw error;
         }
+       
         const { userid: userId } = request.headers;
         const requestData = {
             offset: parseInt(offset, 10),
             limit: parseInt(limit, 10),
             userId
         };
+        
         const responseData = await postModel.getPosts(requestData);
 
         if (!responseData || responseData.length === 0) {
@@ -120,7 +122,7 @@ exports.getPost = async (request, response, next) => {
         }
 
         const requestData = {
-            postId
+            postId,
         };
         const responseData = await postModel.getPost(requestData, response);
 
@@ -219,9 +221,6 @@ exports.toggleLike = async (request, response, next) => {
     const { userid: userId } = request.headers;
 
     try {
-        console.log('[toggleLike] userId:', userId);
-        console.log('[toggleLike] postId:', postId);
-
         if (!postId) {
             const error = new Error(STATUS_MESSAGE.INVALID_POST_ID);
             error.status = STATUS_CODE.BAD_REQUEST;
@@ -243,6 +242,7 @@ exports.toggleLike = async (request, response, next) => {
             error.status = STATUS_CODE.INTERNAL_SERVER_ERROR;
             throw error;
         }
+        console.log('toggleLike 응답 :', responseData);
 
         return response.status(STATUS_CODE.OK).json({
             message: STATUS_MESSAGE.LIKE_SUCCESS,

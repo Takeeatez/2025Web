@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>새로운 게시글</title>
+        <title>Post Write</title>
         <link
             rel="stylesheet"
             href="../css/board-write.css"
@@ -14,19 +14,23 @@
         <div class="wrap">
             <h2>게시글 작성</h2>
             <div class="inputBox">
-                <label>제목*</label>
+                <label>제목<span class="required">*</span></label>
                 <input
                     type="text"
                     id="title"
                     placeholder="제목을 입력해 주세요. (최대 26자)"
+                    maxlength="26"
                 />
+                <p class="char-counter" id="titleCount">0 / 26</p>
             </div>
             <div class="inputBox">
-                <label>내용*</label>
+                <label>내용<span class="required">*</span></label>
                 <textarea
                     id="content"
                     placeholder="내용을 입력해 주세요."
+                    maxlength="500"
                 ></textarea>
+                <p class="char-counter" id="contentCount">0 / 500</p>
                 <p class="helperText" name="content"></p>
             </div>
             <div class="inputBox">
@@ -38,10 +42,47 @@
                     placeholder="파일을 선택해주세요."
                     accept="image/*"
                 />
+                <label id="imagePreviewText"></label>
+                <img id="imagePreview" style="max-width: 100%; max-height: 240px; margin-top: 12px; border-radius: 12px; display: none;" />
             </div>
             <button id="submit">완료</button>
         </div>
         <div class="background"></div>
+        <script>
+            const titleInput = document.getElementById("title");
+            const contentInput = document.getElementById("content");
+            const titleCount = document.getElementById("titleCount");
+            const contentCount = document.getElementById("contentCount");
+
+            titleInput.addEventListener("input", () => {
+                titleCount.textContent = `${titleInput.value.length} / 26`;
+            });
+
+            contentInput.addEventListener("input", () => {
+                contentCount.textContent = `${contentInput.value.length} / 500`;
+            });
+
+            const imageInput = document.getElementById("image");
+            const imagePreview = document.getElementById("imagePreview");
+            const imagePreviewText = document.getElementById("imagePreviewText");
+
+            imageInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                if (!file) {
+                    imagePreview.style.display = "none";
+                    imagePreview.src = "";
+                    imagePreviewText.textContent = "";
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    imagePreview.src = event.target.result;
+                    imagePreview.style.display = "block";
+                    imagePreviewText.textContent = file.name;
+                };
+                reader.readAsDataURL(file);
+            });
+        </script>
     </body>
     <script src="../js/board-write.js" type="module"></script>
 </html>

@@ -5,14 +5,17 @@ const DEFAULT_PROFILE_IMAGE = '/public/image/profile/default.jpg';
 const headerDropdownMenu = () => {
     const wrap = document.createElement('div');
 
+    const myPostsLink = document.createElement('a');
     const modifyInfoLink = document.createElement('a');
     const modifyPasswordLink = document.createElement('a');
     const logoutLink = document.createElement('a');
 
-    modifyInfoLink.textContent = '회원정보수정';
-    modifyPasswordLink.textContent = '비밀번호수정';
-    logoutLink.textContent = '로그아웃';
+    myPostsLink.innerHTML = '<i class="fa-solid fa-pen"></i> 내 게시글';
+    modifyInfoLink.innerHTML = '<i class="fa-solid fa-user-gear"></i> 회원정보수정';
+    modifyPasswordLink.innerHTML = '<i class="fa-solid fa-lock"></i> 비밀번호수정';
+    logoutLink.innerHTML = '<i class="fa-solid fa-right-from-bracket"></i> 로그아웃';
 
+    myPostsLink.href = '/html/myBoard.html';
     modifyInfoLink.href = '/html/modifyInfo.html';
     modifyPasswordLink.href = '/html/modifyPassword.html';
     logoutLink.addEventListener('click', () => {
@@ -21,8 +24,9 @@ const headerDropdownMenu = () => {
         location.href = '/html/login.html';
     });
 
-    wrap.classList.add('drop');
+    wrap.classList.add('drop', 'none');
 
+    wrap.appendChild(myPostsLink);
     wrap.appendChild(modifyInfoLink);
     wrap.appendChild(modifyPasswordLink);
     wrap.appendChild(logoutLink);

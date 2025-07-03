@@ -3,13 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-            integrity="sha512-papNM3C7lU+3dZLQ4KjlkkG9JQW9XkGmW3lqkBk4p1lY4axurx/AE5PzvZCkq6Vd1CJZ+hPlf+9d3RBh8rFZZg=="
-            crossorigin="anonymous"
-            referrerpolicy="no-referrer"
-        />
+       <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+/>
         <link
             rel="stylesheet"
             href="../css/board.css"
@@ -38,26 +37,26 @@
                 <article class="content"></article>
                 <article class="bodyWrap">
                     <div class="commentWrap">
-                        <div class="viewCount icon">
-                            <i class="fas fa-eye"></i>
-                            <h3></h3>
+                        <div class="likeCount icon">
+                            <i class="fa-solid fa-heart"></i>
+                            <span id="likeCount">0</span>
                         </div>
                         <div class="commentCount icon">
-                            <i class="fas fa-comment"></i>
+                            <i class="fa-solid fa-comment"></i>
                             <h3></h3>
                         </div>
-                        <div class="likeCount icon">
-                            <i class="fas fa-heart"></i>
-                            <span id="likeCount">0</span>
+                        <div class="viewCount icon">
+                            <i class="fa-solid fa-eye"></i>
+                            <h3></h3>
                         </div>
                     </div>
                 </article>
             </section>
             <section class="comment">
                 <div class="commentInputWrap">
-                    <textarea placeholder="댓글 입력"></textarea>
+                    <textarea placeholder="댓글을 입력하세요..."></textarea>
                     <div>
-                        <button class="commentInputBtn">댓글 등록</button>
+                        <button class="commentInputBtn">등록</button>
                     </div>
                 </div>
                 <div class="commentList"></div>

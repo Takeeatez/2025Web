@@ -42,10 +42,8 @@ const observeSignupData = () => {
     const { title, content } = boardWrite;
     if (!title || !content || title === '' || content === '') {
         submitButton.disabled = true;
-        submitButton.style.backgroundColor = 'rgba(135, 206, 235, 1)';
     } else {
         submitButton.disabled = false;
-        submitButton.style.backgroundColor = 'rgba(135, 206, 235, 0.5)';
     }
 };
 

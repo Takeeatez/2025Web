@@ -7,20 +7,53 @@ const HTTP_OK = 200;
 
 const CommentItem = (data, writerId, postId, commentId) => {
     const CommentDelete = () => {
-        Dialog(
-            '댓글을 삭제하시겠습니까?',
-            '삭제한 내용은 복구 할 수 없습니다.',
-            async () => {
-                const response = await deleteComment(postId, commentId);
-                if (!response.ok) {
-                    Dialog('삭제 실패', '댓글 삭제에 실패하였습니다.');
-                    return;
-                }
+        const existing = document.querySelector('.modal-backdrop');
+        if (existing) existing.remove();
 
-                if (response.status === HTTP_OK)
-                    location.href = '/html/board.html?id=' + postId;
-            },
-        );
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop';
+
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+
+        const header = document.createElement('h2');
+        header.textContent = '댓글을 삭제하시겠습니까?';
+
+        const content = document.createElement('p');
+        content.textContent = '삭제한 내용은 복구할 수 없습니다.';
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.className = 'cancel';
+        cancelButton.textContent = '취소';
+        cancelButton.onclick = () => {
+            document.body.removeChild(backdrop);
+        };
+
+        const confirmButton = document.createElement('button');
+        confirmButton.className = 'confirm';
+        confirmButton.textContent = '삭제';
+        confirmButton.onclick = async () => {
+            const response = await deleteComment(postId, commentId);
+            document.body.removeChild(backdrop);
+            if (!response.ok) {
+                Dialog('삭제 실패', '댓글 삭제에 실패하였습니다.');
+                return;
+            }
+            if (response.status === HTTP_OK)
+                location.href = '/html/board.html?id=' + postId;
+        };
+
+        actions.appendChild(cancelButton);
+        actions.appendChild(confirmButton);
+
+        box.appendChild(header);
+        box.appendChild(content);
+        box.appendChild(actions);
+        backdrop.appendChild(box);
+        document.body.appendChild(backdrop);
     };
 
     const CommentModify = () => {
@@ -31,6 +64,7 @@ const CommentItem = (data, writerId, postId, commentId) => {
 
         // textarea 생성 및 설정
         const textarea = document.createElement('textarea');
+        textarea.className = 'commentEditTextarea';
         textarea.value = originalContent;
         textarea.style.width = '100%'; // textarea 너비 설정
         textarea.style.height = '100px'; // textarea 높이 설정
@@ -48,6 +82,7 @@ const CommentItem = (data, writerId, postId, commentId) => {
 
         // 수정 완료(저장) 버튼 생성 및 설정
         const saveButton = document.createElement('button');
+        saveButton.className = 'commentEditButton';
         saveButton.textContent = '저장';
         saveButton.onclick = async () => {
             if (textarea.value.length === 0) {
@@ -69,6 +104,7 @@ const CommentItem = (data, writerId, postId, commentId) => {
 
         // 취소 버튼 생성 및 설정
         const cancelButton = document.createElement('button');
+        cancelButton.className = 'commentEditButton cancel';
         cancelButton.textContent = '취소';
         cancelButton.onclick = () => {
             // textarea를 원래의 p 태그로 다시 변경

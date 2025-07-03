@@ -108,8 +108,8 @@ exports.getPosts = async (requestData, response) => {
     ORDER BY post_table.created_at DESC
     LIMIT ${limit} OFFSET ${offset};
     `;
-    const results = await dbConnect.query(sql, [userId], response);
-
+    const results = await dbConnect.query(sql, [userId, limit, offset], response);
+    
     if (!results) return null;
     return results;
 };
@@ -190,14 +190,22 @@ exports.getPost = async (requestData, response) => {
 
     if (userId) {
       const likeCheckSql = `
-        SELECT COUNT(*) AS count FROM like_table
-        WHERE user_id = ? AND post_id = ?;
+        SELECT EXISTS (
+          SELECT 1 FROM like_table
+          WHERE user_id = ? AND post_id = ?
+        ) AS isLiked;
       `;
       const [likeResult] = await dbConnect.query(likeCheckSql, [userId, postId]);
-      postResult.isLikedByMe = likeResult[0].count > 0;
+      postResult.isLikedByMe = !!likeResult[0].isLiked;
     } else {
       postResult.isLikedByMe = false;
     }
+
+    const likeCountSql = `
+      SELECT \`like\` FROM post_table WHERE post_id = ?;
+    `;
+    const [likeCountResult] = await dbConnect.query(likeCountSql, [postId]);
+    postResult.likeCount = likeCountResult?.like ?? 0;
 
     return postResult;
 };
@@ -317,20 +325,21 @@ exports.toggleLike = async ({ userId, postId }) => {
             `, [postId]);
         }
 
-        return { liked: likeCount === 0 };
+        const likeCountResult = await dbConnect.query(`
+            SELECT \`like\` FROM post_table WHERE post_id = ?;
+        `, [postId]);
+
+        const currentLikeCount = Array.isArray(likeCountResult) && likeCountResult.length > 0
+            ? likeCountResult[0].like
+            : 0;
+
+        return {
+            liked: likeCount == 0,
+            likeCount: currentLikeCount
+        };
 
     } catch (err) {
         console.error('[toggleLike] 내부 에러:', err);
         throw err;
     }
-};
-
-// 사용자가 특정 게시글을 좋아요 눌렀는지 확인
-exports.hasUserLiked = async ({ userId, postId }) => {
-    const sql = `
-        SELECT COUNT(*) AS count FROM like_table
-        WHERE user_id = ? AND post_id = ?;
-    `;
-    const [result] = await dbConnect.query(sql, [userId, postId]);
-    return { liked: result[0].count > 0 };
 };

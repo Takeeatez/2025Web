@@ -39,7 +39,7 @@
 .commentInfoWrap div span button {
     padding: 5px 12px;
     border-radius: 8px;
-    border: 1px solid #aca0eb;
+    border: 1px solid #4a90e2;
     background-color: transparent;
     color: #000;
     font-size: 15px;
@@ -67,10 +67,151 @@
     line-height: 14px;
     letter-spacing: -0.01em;
     text-align: right;
-    color: rgba(171, 174, 186, 1);
+    color: #fff;
     margin-left: auto;
 
     border: none;
     background-color: #fff;
+    cursor: pointer;
+}
+
+
+.commentInputWrap {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #ffffff;
+    padding: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.commentInputWrap textarea {
+    border: none;
+    outline: none;
+    resize: none;
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    background-color: #ffffff !important;
+    border-radius: 8px;
+    padding: 10px;
+    color: #333;
+}
+
+.commentInputWrap div button {
+    padding: 8px 24px;
+    font-size: 14px;
+    border-radius: 8px;
+    background-color: #4a90e2 !important;
+    color: #ffffff;
+    border: 1px solid #4a90e2 !important;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.commentInputWrap div button:hover {
+    background-color: #357ab8;
+}
+.commentInputWrap div {
+    background-color: #ffffff !important;
+}
+
+.commentEditTextarea {
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 8px 0;
+    resize: none;
+    background-color: #fff;
+}
+
+.commentEditButton {
+    padding: 6px 18px;
+    font-size: 14px;
+    border-radius: 8px;
+    background-color: #4a90e2;
+    color: #ffffff;
+    border: 1px solid #4a90e2;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.commentEditButton:hover {
+    background-color: #357ab8;
+}
+
+.commentEditButton.cancel {
+    background-color: #ffffff;
+    color: #4a90e2;
+    border: 1px solid #4a90e2;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.modal-box {
+    width: 320px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.modal-box h2 {
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    color: #000;
+}
+
+.modal-box p {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #555;
+    margin: 0;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.modal-actions .confirm {
+    padding: 8px 20px;
+    border: 1px solid #4a90e2;
+    border-radius: 8px;
+    background-color: #4a90e2;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modal-actions .cancel {
+    padding: 8px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    font-size: 14px;
     cursor: pointer;
 }

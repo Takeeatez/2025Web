@@ -33,10 +33,8 @@ const observeData = () => {
     // id, pw, pwck, nickname, profile 값이 모두 존재하는지 확인
     if (!password || !passwordCheck || password !== passwordCheck) {
         button.disabled = true;
-        button.style.backgroundColor = '#ACA0EB';
     } else {
         button.disabled = false;
-        button.style.backgroundColor = '#7F6AEE';
     }
 };
 

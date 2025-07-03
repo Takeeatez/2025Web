@@ -7,18 +7,18 @@ body{
 }
 .wrap {
     width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 32px 24px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 640px;
+    margin: 48px auto;
+    padding: 40px 32px;
+    background: linear-gradient(145deg, #ffffff, #f9f9f9);
+    border-radius: 16px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    row-gap: 16px;
+    row-gap: 20px;
 }
 
 h2 {
@@ -39,25 +39,27 @@ h2 {
 }
 
 .inputBox label {
-    font-size: 14px;
-    line-height: 17px;
-    letter-spacing: -0.02em;
-    font-weight: 700;
-    color: rgba(69, 72, 84, 1);
-
-    padding: 16px 16px;
-
-    border-bottom: 1px solid #00000029;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    padding: 12px 8px;
+    border-bottom: 1px solid #e0e0e0;
 }
+
+.inputBox label .required {
+    color: #e74c3c !important;
+    font-weight: 700;
+}
+
 .inputBox input,
 .inputBox textarea {
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    padding: 12px 16px;
+    background-color: #fdfdfd;
+    border-radius: 10px;
+    padding: 14px 18px;
     font-size: 14px;
     color: #333;
     border: 1px solid #ccc;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
     width: 100%;
     outline: none;
     resize: none;
@@ -65,22 +67,47 @@ h2 {
 
 .inputBox input:focus,
 .inputBox textarea:focus {
-    border-color: #aca0eb;
-    outline: none;
+    border-color: #4a90e2;
     background-color: #fff;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+    outline: none;
 }
 
 .inputBox textarea {
     height: 200px;
 }
 
+#image {
+    padding: 8px 0;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-top: 4px;
+}
+
+#imagePreviewText {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #777;
+}
+
+.char-counter {
+    text-align: right;
+    font-size: 12px;
+    color: #999;
+    margin-top: -6px;
+    margin-bottom: 6px;
+}
+
 .wrap button {
     width: 100%;
-    height: 44px;
+    height: 48px;
     margin-top: 24px;
-    border-radius: 8px;
-    background-color: #aca0eb;
-    color: #fff;
+    border-radius: 10px;
+    background-color: #4a90e2;
+    color: #ffffff;
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
@@ -89,11 +116,11 @@ h2 {
 }
 
 .wrap button:hover {
-    background-color: #8c7ae6;
+    background-color: #357ab8;
 }
 
 .non-border {
-    border:rgb(64, 63, 63)e !important;
+    border: none !important;
     padding: 0 16px !important;
 }
 

@@ -16,14 +16,18 @@
     border-left: none;
     border-right: none;
     border-bottom: none;
-    border-radius: 0;
+    border-radius: 12px;
 
     cursor: pointer;
-    box-shadow: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.2s ease;
     background-color: white;
     overflow: hidden;
-
     margin-top: -1px; /* 인접 항목과 경계선 연결 */
+}
+
+.boardItem:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
 }
 
 .boardList .boardItem:first-child {

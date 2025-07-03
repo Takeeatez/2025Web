@@ -5,8 +5,9 @@ export const getPosts = (offset, limit) => {
         `${getServerUrl()}/posts?offset=${offset}&limit=${limit}`,
         {
             headers: {
+                'Content-Type': 'application/json',
                 session: getCookie('session'),
-                userId: getCookie('userId'),
+                userid: getCookie('userId'),
             },
             noCORS: true,
         },

@@ -93,6 +93,57 @@ const setBoardDetail = data => {
     }
 };
 
+const showDeleteConfirmationDialog = (onConfirm) => {
+    // Create modal backdrop
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.classList.add('modal-backdrop');
+
+    // Create modal box
+    const modalBox = document.createElement('div');
+    modalBox.classList.add('modal-box');
+
+    // Title
+    const title = document.createElement('h2');
+    title.textContent = '게시글을 삭제하시겠습니까?';
+
+    // Description
+    const description = document.createElement('p');
+    description.textContent = '삭제한 내용은 복구 할 수 없습니다.';
+
+    // Actions container
+    const actions = document.createElement('div');
+    actions.classList.add('modal-actions');
+
+    // Confirm button
+    const confirmBtn = document.createElement('button');
+    confirmBtn.classList.add('confirm');
+    confirmBtn.textContent = '삭제';
+
+    // Cancel button
+    const cancelBtn = document.createElement('button');
+    cancelBtn.classList.add('cancel');
+    cancelBtn.textContent = '취소';
+
+    actions.appendChild(confirmBtn);
+    actions.appendChild(cancelBtn);
+
+    modalBox.appendChild(title);
+    modalBox.appendChild(description);
+    modalBox.appendChild(actions);
+    modalBackdrop.appendChild(modalBox);
+    document.body.appendChild(modalBackdrop);
+
+    // Event listeners
+    confirmBtn.addEventListener('click', () => {
+        onConfirm();
+        document.body.removeChild(modalBackdrop);
+    });
+
+    cancelBtn.addEventListener('click', () => {
+        document.body.removeChild(modalBackdrop);
+    });
+};
+
 const setBoardModify = async (data, myInfo) => {
     if (myInfo.idx === data.writerId) {
         const modifyElement = document.querySelector('.hidden');
@@ -101,18 +152,14 @@ const setBoardModify = async (data, myInfo) => {
         const modifyBtnElement = document.querySelector('#deleteBtn');
         const postId = getQueryString('id');
         modifyBtnElement.addEventListener('click', () => {
-            Dialog(
-                '게시글을 삭제하시겠습니까?',
-                '삭제한 내용은 복구 할 수 없습니다.',
-                async () => {
-                    const response = await deletePost(postId);
-                    if (response.ok) {
-                        window.location.href = '/';
-                    } else {
-                        Dialog('삭제 실패', '게시글 삭제에 실패하였습니다.');
-                    }
-                },
-            );
+            showDeleteConfirmationDialog(async () => {
+                const response = await deletePost(postId);
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    Dialog('삭제 실패', '게시글 삭제에 실패하였습니다.');
+                }
+            });
         });
 
         const modifyBtnElement2 = document.querySelector('#modifyBtn');
@@ -172,10 +219,9 @@ const inputComment = async () => {
     }
     if (textareaElement.value === '') {
         commentBtnElement.disabled = true;
-        commentBtnElement.style.backgroundColor = '#ACA0EB';
+       
     } else {
         commentBtnElement.disabled = false;
-        commentBtnElement.style.backgroundColor = '#7F6AEE';
     }
 };
 

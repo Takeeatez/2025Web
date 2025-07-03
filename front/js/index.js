@@ -20,6 +20,14 @@ const getBoardItem = async (offset = 0, limit = 5) => {
     return data.data;
 };
 
+const updateLikeIcons = () => {
+    document.querySelectorAll('.like-icon').forEach(icon => {
+        const liked = icon.getAttribute('data-liked') === 'true';
+        icon.classList.remove('fa-solid', 'fa-regular');
+        icon.classList.add(liked ? 'fa-solid' : 'fa-regular');
+    });
+};
+
 const setBoardItem = boardData => {
     const boardList = document.querySelector('.boardList');
     if (boardList && boardData) {
@@ -35,10 +43,12 @@ const setBoardItem = boardData => {
                     data.comment_count,
                     data.like,
                     data.post_content,
+                    data.isLikedByMe
                 ),
             )
             .join('');
         boardList.innerHTML += ` ${itemsHtml}`;
+        updateLikeIcons();
     }
 };
 
@@ -92,6 +102,7 @@ const init = async () => {
 
         const boardList = await getBoardItem();
         setBoardItem(boardList);
+        updateLikeIcons();
 
         addInfinityScrollEvent();
     } catch (error) {
