@@ -14,7 +14,6 @@ import { userModify, userDelete } from '../api/modifyInfoRequest.js';
 const emailTextElement = document.querySelector('#id');
 const nicknameInputElement = document.querySelector('#nickname');
 const profileInputElement = document.querySelector('#profile');
-const withdrawBtnElement = document.querySelector('#withdrawBtn');
 const nicknameHelpElement = document.querySelector(
     '.inputBox p[name="nickname"]',
 );
@@ -160,26 +159,60 @@ const sendModifyData = async () => {
 };
 
 // 회원 탈퇴
-const deleteAccount = async () => {
-    const userId = getCookie('userId');
-    const callback = async () => {
-        const response = await userDelete(userId);
+    const deleteAccount = async () => {
+        const existing = document.querySelector('.modal-backdrop');
+        if (existing) existing.remove();
 
-        if (response.status === HTTP_OK) {
-            deleteCookie('session');
-            deleteCookie('userId');
-            location.href = '/html/login.html';
-        } else {
-            Dialog('회원 탈퇴 실패', '회원 탈퇴에 실패했습니다.');
-        }
+        const backdrop = document.createElement('div');
+        backdrop.className = 'modal-backdrop';
+
+        const box = document.createElement('div');
+        box.className = 'modal-box';
+
+        const header = document.createElement('h2');
+        header.textContent = '회원 탈퇴하시겠습니까?';
+
+        const content = document.createElement('p');
+        content.textContent = '작성한 게시글과 댓글은 모두 삭제되며, 복구할 수 없습니다.';
+
+        const actions = document.createElement('div');
+        actions.className = 'modal-actions';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.className = 'cancel';
+        cancelButton.textContent = '취소';
+        cancelButton.onclick = () => {
+            document.body.removeChild(backdrop);
+        };
+
+        const confirmButton = document.createElement('button');
+        confirmButton.className = 'confirm';
+        confirmButton.textContent = '탈퇴';
+        confirmButton.onclick = async () => {
+            const userId = getCookie('userId');
+            const response = await userDelete(userId);
+            document.body.removeChild(backdrop);
+            if (!response.ok) {
+                Dialog('탈퇴 실패', '회원 탈퇴에 실패했습니다.');
+                return;
+            }
+            if (response.status === HTTP_OK) {
+                deleteCookie('session');
+                deleteCookie('userId');
+                location.href = '/html/login.html';
+            }
+        };
+
+        actions.appendChild(cancelButton);
+        actions.appendChild(confirmButton);
+
+        box.appendChild(header);
+        box.appendChild(content);
+        box.appendChild(actions);
+        backdrop.appendChild(box);
+        document.body.appendChild(backdrop);
     };
 
-    Dialog(
-        '회원탈퇴 하시겠습니까?',
-        '작성된 게시글과 댓글은 삭제 됩니다.',
-        callback,
-    );
-};
 
 const addEvent = () => {
     nicknameInputElement.addEventListener('change', event =>
@@ -189,7 +222,11 @@ const addEvent = () => {
         changeEventHandler(event, 'profile'),
     );
     modifyBtnElement.addEventListener('click', async () => sendModifyData());
-    withdrawBtnElement.addEventListener('click', async () => deleteAccount());
+    const withdrawBtnElement = document.querySelector('#withdrawBtn');
+    withdrawBtnElement.addEventListener('click', async (e) => {
+        e.preventDefault();
+        await deleteAccount();
+    });
 };
 
 const showToast = (message, duration = 3000, callback = null) => {

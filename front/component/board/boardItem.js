@@ -50,8 +50,8 @@ const BoardItem = (
                 <i class="like-icon ${liked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'}" style="cursor:pointer; color:${liked ? 'red' : 'inherit'};" data-liked="${liked ? 'true' : 'false'}"></i>
                   <b class="like-count">${like ?? 0}</b>
                 </h3>
-                <h3 class="views"><i class="fa-solid fa-comment-dots"></i> <b>${commentCount}</b></h3>
-                <h3 class="views"><i class="fa-solid fa-eye"></i> <b>${hits}</b></h3>
+                <h3 class="views"><i class="fa-regular fa-comment-dots"></i> <b>${commentCount}</b></h3>
+                <h3 class="views"><i class="fa-regular fa-eye"></i> <b>${hits}</b></h3>
                 <p class="date">${formattedDate}</p>
             </div>
             <div class="writerInfo">

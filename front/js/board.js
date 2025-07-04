@@ -81,7 +81,7 @@ const setBoardDetail = data => {
 
     // 좋아요 정보 표시
     const likeButton = document.querySelector('.like-btn');
-    const likeCountElement = document.querySelector('.likeCount h3');
+    const likeCountElement = document.querySelector('.like-wrapper .like-count');
 
     if (likeButton && likeCountElement) {
         if (data.isLikedByMe) {
@@ -91,6 +91,17 @@ const setBoardDetail = data => {
         }
 
         likeCountElement.textContent = (data.like_count ?? 0).toLocaleString();
+    } else {
+      const likeContainer = document.querySelector('.likeWrap');
+      if (likeContainer) {
+        const span = document.createElement('span');
+        span.classList.add('like-wrapper');
+        span.innerHTML = `
+          <i class="fa-solid fa-heart" style="color:red;"></i>
+          <b class="like-count">${(data.like_count ?? 0).toLocaleString()}</b>
+        `;
+        likeContainer.appendChild(span);
+      }
     }
 };
 

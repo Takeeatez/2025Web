@@ -95,6 +95,7 @@ article {
     letter-spacing: -0.02em;
     font-weight: 700;
     color: #000000;
+    margin-bottom: 6px; /* 닉네임과 입력박스 간격 조정 */
 }
 .inputBox input {
     font-size: 15px;
@@ -182,7 +183,7 @@ article {
     display: flex;
     flex-direction: column;
     width: 100%;
-    margin-top: 42px;
+    margin-top: 24px; /* 기존 42px에서 줄임 */
     gap: 12px;
 }
 .buttons p {
@@ -194,15 +195,29 @@ article {
     line-height: normal;
     align-self: flex-start;
 }
-.buttons button,
-a {
+/* Updated button and link styles for .buttons */
+.buttons button {
+    background-color: rgba(135, 206, 235, 1);
+    color: #ffffff;
+    font-weight: 800;
+    border-radius: 2px;
+    border: 1px solid rgba(135, 206, 235, 0.3);
+    height: 40px;
+    transition: background-color 0.3s ease;
+}
+
+.buttons button:hover {
+    background-color: #2f2c2b;
+}
+
+.buttons a {
+    background-color: transparent;
+    border: none;
+    color: #000000;
+    font-weight: 600;
     font-size: 14px;
-    cursor: pointer;
-    width: 100%;
-    height: 33px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    text-align: center;
+    text-decoration: underline;
 }
 
 
@@ -220,11 +235,6 @@ a {
     background-color: #2f2c2b;
 }
 
-.buttons a {
-    color: #222222;
-    font-weight: 600;
-    text-decoration: underline;
-}
 
 .deleteFile {
     cursor: pointer;
@@ -451,4 +461,53 @@ header .drop a:hover {
 
 .none {
     display: none !important;
+}
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.modal-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    text-align: center;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.modal-actions .cancel,
+.modal-actions .confirm {
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-actions .cancel {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+.modal-actions .confirm {
+    background-color: red;
+    color: #fff;
 }
